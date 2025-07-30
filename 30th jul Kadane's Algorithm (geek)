@@ -1,0 +1,21 @@
+class Solution {
+    int maxSubarraySum(int[] arr) {
+        // Code here
+        int n=arr.length;
+        int max=arr[0];
+        int current=arr[0];
+       
+        
+        for(int i=1;i<n;i++){
+            current=Math.max(arr[i],arr[i]+current);
+            max=Math.max(current,max);
+            
+            
+        }
+        return max;
+    }
+}
+
+
+
+// Kadane's Algorithm  //

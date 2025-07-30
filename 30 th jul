@@ -1,0 +1,36 @@
+class Solution {
+    public int longestSubarray(int[] nums) {
+
+        int max=0;
+        for(int num:nums){
+            if(max<num){
+                max=num;
+            }
+
+        }
+
+
+        int seq=0;
+        int large=0;
+        for(int num:nums){
+            if(num==max){
+                seq++;
+                large=Math.max(seq,large);
+            }
+            else{
+                seq=0;
+            }
+        }
+        return large;
+
+
+
+
+        
+    }
+}
+
+
+
+
+// find the max length subset for the AND bitwise//

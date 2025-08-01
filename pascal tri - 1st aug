@@ -1,0 +1,36 @@
+class Solution {
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> tri = new ArrayList<>();
+
+        for(int i=0;i<numRows;i++){
+            List<Integer> row= new ArrayList<>();
+
+            for(int j=0;j<=i;j++){
+
+                if(j==0 || i==j){
+                    row.add(1);
+                }
+
+                else{
+                    int aboveleft=tri.get(i-1).get(j-1);
+                    int aboveright=tri.get(i-1).get(j);
+                    row.add(aboveleft+aboveright);
+                }   
+            }
+            tri.add(row);
+
+        }
+        return tri;
+        
+    }
+}
+
+
+//Example 1:
+
+Input: numRows = 5
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+Example 2:
+
+Input: numRows = 1
+Output: [[1]]//

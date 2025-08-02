@@ -1,0 +1,95 @@
+import java.util.*;
+
+public class Solution {
+    public long minCost(int[] basket1, int[] basket2) {
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        // Step 1: Count all fruit occurrences
+        for (int val : basket1)
+            freq.put(val, freq.getOrDefault(val, 0) + 1);
+        for (int val : basket2)
+            freq.put(val, freq.getOrDefault(val, 0) + 1);
+
+        // Step 2: Check feasibility — all counts must be even
+        for (int count : freq.values()) {
+            if (count % 2 != 0)
+                return -1;
+        }
+
+        // Step 3: Target: each value should appear half its total in each basket
+        Map<Integer, Integer> target = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : freq.entrySet()) {
+            target.put(entry.getKey(), entry.getValue() / 2);
+        }
+
+        // Step 4: Count each value in both baskets
+        Map<Integer, Integer> count1 = new HashMap<>();
+        for (int val : basket1)
+            count1.put(val, count1.getOrDefault(val, 0) + 1);
+
+        // Step 5: Build extra lists
+        List<Integer> extra1 = new ArrayList<>();
+        List<Integer> extra2 = new ArrayList<>();
+
+        for (int key : freq.keySet()) {
+            int countIn1 = count1.getOrDefault(key, 0);
+            int targetCount = target.get(key);
+            if (countIn1 > targetCount) {
+                for (int i = 0; i < countIn1 - targetCount; i++)
+                    extra1.add(key);
+            } else if (countIn1 < targetCount) {
+                for (int i = 0; i < targetCount - countIn1; i++)
+                    extra2.add(key);
+            }
+        }
+
+        // Step 6: Sort extras
+        Collections.sort(extra1);               // Ascending
+        Collections.sort(extra2, Collections.reverseOrder());  // Descending
+
+        int minFruit = Collections.min(freq.keySet());
+        long cost = 0;
+
+        for (int i = 0; i < extra1.size(); i++) {
+            int a = extra1.get(i);
+            int b = extra2.get(i);
+
+            // Either swap directly: min(a, b)
+            // Or use 2 swaps via the globally cheapest fruit: 2 * minFruit
+            cost += Math.min(Math.min(a, b), 2 * minFruit);
+        }
+
+        return cost;
+    }
+}
+
+
+//2561. Rearranging Fruits
+
+You have two fruit baskets containing n fruits each. You are given two 0-indexed integer arrays basket1 and basket2 representing the cost of fruit in each basket. You want to make both baskets equal. To do so, you can use the following operation as many times as you want:
+
+Chose two indices i and j, and swap the ith fruit of basket1 with the jth fruit of basket2.
+The cost of the swap is min(basket1[i],basket2[j]).
+Two baskets are considered equal if sorting them according to the fruit cost makes them exactly the same baskets.
+
+Return the minimum cost to make both the baskets equal or -1 if impossible.
+
+ 
+
+Example 1:
+
+Input: basket1 = [4,2,2,2], basket2 = [1,4,1,2]
+Output: 1
+Explanation: Swap index 1 of basket1 with index 0 of basket2, which has cost 1. Now basket1 = [4,1,2,2] and basket2 = [2,4,1,2]. Rearranging both the arrays makes them equal.
+Example 2:
+
+Input: basket1 = [2,3,4,1], basket2 = [3,2,5,1]
+Output: -1
+Explanation: It can be shown that it is impossible to make both the baskets equal.
+ 
+
+Constraints:
+
+basket1.length == basket2.length
+1 <= basket1.length <= 105
+1 <= basket1[i],basket2[i] <= 109//

@@ -1,0 +1,33 @@
+class Solution {
+    public int maxTotalFruits(int[][] fruits, int startPos, int k) {
+        int n = fruits.length;
+        int maxFruits = 0;
+
+        int left = 0, total = 0;
+
+        for (int right = 0; right < n; right++) {
+            total += fruits[right][1]; // Add right end fruit
+
+            // While the distance to reach both left and right from startPos is more than k, shrink window
+            while (left <= right && minSteps(fruits, left, right, startPos) > k) {
+                total -= fruits[left][1]; // Remove left end fruit
+                left++;
+            }
+
+            maxFruits = Math.max(maxFruits, total); // Update max fruits
+        }
+
+        return maxFruits;
+    }
+
+    private int minSteps(int[][] fruits, int left, int right, int startPos) {
+        int leftPos = fruits[left][0];
+        int rightPos = fruits[right][0];
+
+        // Choose minimum cost path: go to left then right OR right then left
+        return Math.min(
+            Math.abs(startPos - leftPos) + (rightPos - leftPos),
+            Math.abs(startPos - rightPos) + (rightPos - leftPos)
+        );
+    }
+}

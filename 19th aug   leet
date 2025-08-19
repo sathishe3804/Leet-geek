@@ -1,0 +1,21 @@
+class Solution {
+    public long zeroFilledSubarray(int[] nums) {
+        long cnt =0,a=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0){
+                cnt++;
+            a+=cnt;
+        }
+            else{
+                cnt=0;
+            }
+        }
+        return a;
+        
+    }
+}    
+
+
+
+// actually its kind of trickyone cause its look simple but when u see clearly the subarray count every possible isnoted in 'a' then make a count by adding and again that makes value higher
+if the sub length is 2 then first cnt is 1 and a  = 1 after cntis 2 then a aledy 1 now 3 so the one one two these probabilities satisfied here

@@ -1,0 +1,57 @@
+class Solution {
+    public int findPages(int[] arr, int k) {
+        int n = arr.length;
+        
+        // If students are more than books, impossible
+        if (k > n) return -1;
+        
+        int low = getMax(arr);   // max single book
+        int high = getSum(arr);  // sum of all books
+        int result = -1;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            
+            if (isPossible(arr, n, k, mid)) {
+                result = mid;   // mid is possible, try better (smaller)
+                high = mid - 1;
+            } else {
+                low = mid + 1;  // not possible, increase pages
+            }
+        }
+        
+        return result;
+    }
+    
+    // Helper: check if allocation is possible with maxPages = mid
+    private boolean isPossible(int[] arr, int n, int k, int maxPages) {
+        int studentCount = 1;
+        int sum = 0;
+        
+        for (int pages : arr) {
+            if (sum + pages > maxPages) {
+                studentCount++;
+                sum = pages;
+                
+                if (studentCount > k) return false;
+            } else {
+                sum += pages;
+            }
+        }
+        
+        return true;
+    }
+    
+    private int getMax(int[] arr) {
+        int max = arr[0];
+        for (int x : arr) max = Math.max(max, x);
+        return max;
+    }
+    
+    private int getSum(int[] arr) {
+        int sum = 0;
+        for (int x : arr) sum += x;
+        return sum;
+    }
+}
+   

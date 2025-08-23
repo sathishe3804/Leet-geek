@@ -8,7 +8,7 @@ class Solution {
         int low = getMax(arr);   // max single book
         int high = getSum(arr);  // sum of all books
         int result = -1;
-        
+     
         while (low <= high) {
             int mid = low + (high - low) / 2;
             

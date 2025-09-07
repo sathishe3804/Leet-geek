@@ -1,0 +1,15 @@
+class Solution {
+    public int[] sumZero(int n) {
+        int [] op = new int [n];
+        op[0] = n*(1-n)/2;
+        for(int i=1;i<n;i++){
+            op[i]=i;
+        }
+        return op;
+        
+    }
+}
+
+
+// Given an integer n, return any array containing n unique integers such that they add up to 0.
+

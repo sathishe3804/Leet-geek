@@ -27,4 +27,8 @@ class Solution {
 }
 
 
+if they not ASCII then we can sort by timsort(selsort+inssort) but here we do with custom comparator with tim, 
+
+" vow.sort((a,b)-> Character.compare( Charcter.toLowerCase(a) , Charcter.toLowerCase(b))); "
+
 // Sort Vowels in a String

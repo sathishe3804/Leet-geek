@@ -1,0 +1,28 @@
+class Solution {
+    public int maxFreqSum(String s) {
+        Map<Character,Integer>freq = new HashMap<>();
+        int cons=0,vow=0;
+        for(char c: s.toCharArray()){
+            freq.put(c,freq.getOrDefault(c,0)+1);
+        }
+
+        for(Map.Entry<Character,Integer>entry : freq.entrySet()){
+
+            char ch = entry.getKey();
+            int count = entry.getValue();
+
+            if("aeiouAEIOU".indexOf(ch)>-1){
+                vow= Math.max(vow,count);
+            }
+            else{
+                cons = Math.max(cons,count);
+            }
+        }
+        return cons+vow;
+        
+    }
+}
+
+
+
+// find count of the eachchar in string

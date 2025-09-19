@@ -1,0 +1,23 @@
+class Solution {
+    public int minParentheses(String s) {
+        int open = 0;  // unmatched '('
+        int close = 0; // unmatched ')'
+        
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') {
+                open++; // one more '(' to match
+            } else if (ch == ')') {
+                if (open > 0) {
+                    open--; // match with a previous '('
+                } else {
+                    close++; // need an extra '('
+                }
+            }
+        }
+        
+        return open + close;
+    }
+}
+
+
+//Min Add to Make Parentheses Valid

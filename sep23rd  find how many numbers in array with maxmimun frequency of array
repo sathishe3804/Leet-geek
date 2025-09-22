@@ -1,0 +1,23 @@
+class Solution {
+    public int maxFrequencyElements(int[] nums) {
+        Map<Integer,Integer>freq= new HashMap<>();
+        for(int num:nums){
+            freq.put(num,freq.getOrDefault(num,0)+1);
+        }
+
+        int maxfreq =0;
+        for(int i:freq.values()){
+            maxfreq = Math.max(i,maxfreq);
+        }
+
+        int result =0;
+        for(int i:freq.values()){
+            if(i==maxfreq)result+=i;
+        }
+
+        return result;
+        
+    }
+}
+
+//find how many numbers in array with maxmimun frequency of array

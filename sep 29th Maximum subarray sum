@@ -1,0 +1,33 @@
+import java.util.*;
+
+class Solution {
+    public int maxSubarrSum(int[] arr, int a, int b) {
+        int n = arr.length;
+        long[] prefix = new long[n + 1];
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + arr[i];
+        }
+        
+        int ans = Integer.MIN_VALUE;
+        Deque<Integer> dq = new LinkedList<>();
+        
+        for (int r = a; r <= n; r++) {
+            // Maintain window [r - b, r - a] in deque
+            // Remove indices out of range
+            while (!dq.isEmpty() && dq.peekFirst() < r - b) dq.pollFirst();
+            
+            // Add new index r - a
+            int newIdx = r - a;
+            while (!dq.isEmpty() && prefix[dq.peekLast()] >= prefix[newIdx]) dq.pollLast();
+            dq.offerLast(newIdx);
+            
+            // Calculate sum
+            int currSum = (int)(prefix[r] - prefix[dq.peekFirst()]);
+            ans = Math.max(ans, currSum);
+        }
+        return ans;
+    }
+}
+
+Maximum subarray sum 2
+

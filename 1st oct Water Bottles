@@ -1,0 +1,17 @@
+class Solution {
+    public int numWaterBottles(int numBottles, int numExchange) {
+        int totalDrank = numBottles; // first, drink all initial bottles
+        int empty = numBottles;
+
+        while (empty >= numExchange) {
+            int newBottles = empty / numExchange; // how many new full bottles we get
+            totalDrank += newBottles;
+            empty = empty % numExchange + newBottles; // leftover empty + newly emptied bottles later
+        }
+
+        return totalDrank;
+    }
+}
+
+
+//Water Bottles

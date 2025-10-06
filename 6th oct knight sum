@@ -1,0 +1,63 @@
+import java.util.*;
+
+class Solution {
+    // Knight moves: 8 possible directions
+    int[] dx = {2, 2, -2, -2, 1, 1, -1, -1};
+    int[] dy = {1, -1, 1, -1, 2, -2, 2, -2};
+
+    public ArrayList<ArrayList<Integer>> knightTour(int n) {
+        int[][] board = new int[n][n];
+        for (int[] row : board) Arrays.fill(row, -1);
+
+        board[0][0] = 0; // start at top-left corner
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+
+        if (backtrack(board, 0, 0, 1, n)) {
+            // convert int[][] to ArrayList<ArrayList<Integer>>
+            for (int i = 0; i < n; i++) {
+                ArrayList<Integer> row = new ArrayList<>();
+                for (int j = 0; j < n; j++) row.add(board[i][j]);
+                result.add(row);
+            }
+        }
+        return result; // empty if no solution
+    }
+
+    private boolean backtrack(int[][] board, int x, int y, int step, int n) {
+        if (step == n * n) return true; // all cells visited
+
+        for (int i = 0; i < 8; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+
+            if (isValid(nx, ny, board, n)) {
+                board[nx][ny] = step;
+                if (backtrack(board, nx, ny, step + 1, n)) return true;
+                board[nx][ny] = -1; // backtrack
+            }
+        }
+        return false;
+    }
+
+    private boolean isValid(int x, int y, int[][] board, int n) {
+        return x >= 0 && y >= 0 && x < n && y < n && board[x][y] == -1;
+    }
+
+    // Optional main for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int n = 5;
+        ArrayList<ArrayList<Integer>> tour = sol.knightTour(n);
+
+        if (tour.isEmpty()) {
+            System.out.println("[]"); // no solution
+        } else {
+            for (ArrayList<Integer> row : tour) {
+                System.out.println(row);
+            }
+        }
+    }
+}
+
+
+//knight sum

@@ -1,0 +1,40 @@
+/*
+class Node {
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+*/
+
+class Solution {
+    int sum = 0;
+
+    public Node transformTree(Node root) {
+        // Start reverse inorder traversal
+        transform(root);
+        return root;
+    }
+
+    private void transform(Node root) {
+        if (root == null) return;
+
+        // Step 1: Traverse right subtree first (greater values)
+        transform(root.right);
+
+        // Step 2: Update sum and current node
+        int temp = root.data;
+        root.data = sum;
+        sum += temp;
+
+        // Step 3: Traverse left subtree
+        transform(root.left);
+    }
+}
+
+
+//BST to greater sum tree

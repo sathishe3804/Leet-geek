@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Solution {
+    public ArrayList<Integer> getKClosest(Node root, int target, int k) {
+        // Step 1: Get inorder traversal (sorted order of BST)
+        ArrayList<Integer> inorder = new ArrayList<>();
+        inorderTraversal(root, inorder);
+        
+        // Step 2: Use a priority queue (min-heap) to store by closeness
+        PriorityQueue<Integer> pq = new PriorityQueue<>(
+            (a, b) -> {
+                int diffA = Math.abs(a - target);
+                int diffB = Math.abs(b - target);
+                if (diffA == diffB) return a - b; // smaller value first if diff same
+                return diffA - diffB; // smaller diff first
+            }
+        );
+
+        // Step 3: Add all elements to pq
+        for (int val : inorder) {
+            pq.offer(val);
+        }
+
+        // Step 4: Poll k elements
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            result.add(pq.poll());
+        }
+
+        return result;
+    }
+
+    private void inorderTraversal(Node root, ArrayList<Integer> inorder) {
+        if (root == null) return;
+        inorderTraversal(root.left, inorder);
+        inorder.add(root.data);
+        inorderTraversal(root.right, inorder);
+    }
+}
+
+
+//K closest Values

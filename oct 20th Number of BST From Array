@@ -1,0 +1,34 @@
+import java.util.*;
+
+class Solution {
+    public ArrayList<Integer> countBSTs(int[] arr) {
+        int n = arr.length;
+        ArrayList<Integer> result = new ArrayList<>();
+
+        // Precomputed Catalan numbers up to C5 (as max size = 6)
+        int[] catalan = new int[6];
+        catalan[0] = 1;
+        for (int i = 1; i < 6; i++) {
+            catalan[i] = 0;
+            for (int j = 0; j < i; j++) {
+                catalan[i] += catalan[j] * catalan[i - j - 1];
+            }
+        }
+
+        // For each arr[i], count how many are less and greater
+        for (int i = 0; i < n; i++) {
+            int left = 0, right = 0;
+            for (int j = 0; j < n; j++) {
+                if (arr[j] < arr[i]) left++;
+                else if (arr[j] > arr[i]) right++;
+            }
+            // number of BSTs = catalan[left] * catalan[right]
+            result.add(catalan[left] * catalan[right]);
+        }
+
+        return result;
+    }
+}
+
+
+//Number of BST From Array

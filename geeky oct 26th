@@ -1,0 +1,34 @@
+import java.util.PriorityQueue;
+
+class Solution {
+    public static int minCost(int[] arr) {
+        // Edge case: if only one rope, no cost
+        if (arr.length <= 1) {
+            return 0;
+        }
+
+        // Create a min heap
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+
+        // Add all ropes to the heap
+        for (int rope : arr) {
+            minHeap.add(rope);
+        }
+
+        int totalCost = 0;
+
+        // Keep combining until only one rope remains
+        while (minHeap.size() > 1) {
+            int first = minHeap.poll();   // smallest rope
+            int second = minHeap.poll();  // second smallest rope
+
+            int combined = first + second;
+            totalCost += combined;
+
+            // Add the combined rope back to heap
+            minHeap.add(combined);
+        }
+
+        return totalCost;
+    }
+}

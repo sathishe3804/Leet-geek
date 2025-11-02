@@ -1,0 +1,41 @@
+import java.util.*;
+
+class Solution {
+    public int maxEdgesToAdd(int V, int[][] edges) {
+        // Step 1: Build graph
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
+        for (int[] e : edges) adj.get(e[0]).add(e[1]);
+
+        // Step 2: Find topological order using Kahn’s Algorithm
+        int[] indeg = new int[V];
+        for (int[] e : edges) indeg[e[1]]++;
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < V; i++) if (indeg[i] == 0) q.offer(i);
+
+        List<Integer> topo = new ArrayList<>();
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            topo.add(node);
+            for (int nei : adj.get(node)) {
+                if (--indeg[nei] == 0) q.offer(nei);
+            }
+        }
+
+        // Step 3: Create a matrix to mark existing edges or reachability
+        boolean[][] reach = new boolean[V][V];
+        for (int[] e : edges) reach[e[0]][e[1]] = true;
+
+        // Step 4: Count possible edges that can be added
+        int count = 0;
+        for (int i = 0; i < V; i++) {
+            for (int j = i + 1; j < V; j++) {
+                int u = topo.get(i);
+                int v = topo.get(j);
+                if (!reach[u][v]) count++;
+            }
+        }
+
+        return count;
+    }
+}

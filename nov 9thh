@@ -1,0 +1,47 @@
+import java.util.*;
+
+class Solution {
+    public int minCostPath(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+
+        int[][] dist = new int[n][m];
+        for (int[] row : dist) Arrays.fill(row, Integer.MAX_VALUE);
+
+        // Min-heap storing {effort, x, y}
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] - b[0]);
+        pq.add(new int[]{0, 0, 0});
+        dist[0][0] = 0;
+
+        int[] dx = {1, -1, 0, 0};
+        int[] dy = {0, 0, 1, -1};
+
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            int effort = cur[0];
+            int x = cur[1];
+            int y = cur[2];
+
+            // If we reach bottom-right, return effort
+            if (x == n-1 && y == m-1) return effort;
+
+            for (int k = 0; k < 4; k++) {
+                int nx = x + dx[k];
+                int ny = y + dy[k];
+
+                if (nx >= 0 && ny >= 0 && nx < n && ny < m) {
+
+                    int w = Math.abs(mat[nx][ny] - mat[x][y]);
+                    int newEffort = Math.max(effort, w);
+
+                    if (newEffort < dist[nx][ny]) {
+                        dist[nx][ny] = newEffort;
+                        pq.add(new int[]{newEffort, nx, ny});
+                    }
+                }
+            }
+        }
+
+        return -1; // never reaches here
+    }
+}
